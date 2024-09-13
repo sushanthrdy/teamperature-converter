@@ -2,15 +2,27 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { s } from "./App.style";
 import { ImageBackground, Text, View } from "react-native";
 import hotBackground from "./assets/hot.png";
+import coldBackground from "./assets/cold.png";
 import Input from "./components/Input/Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DisplayTemperature from "./components/DisplayTemperature/DisplayTemperature";
-import { convertTemperatureTo, getOppositeUnit } from "./utils/temperature";
+import {
+  convertTemperatureTo,
+  getOppositeUnit,
+  isIceTemperature,
+} from "./utils/temperature";
+import ButtonConverter from "./components/ButtonConverter/ButtonConverter";
 
 export default function App() {
   const [inputValue, setInputValue] = useState(0);
   const [currentUnit, setCurrentUnit] = useState("°C");
+  const [currentBackground, updateBackground] = useState(coldBackground);
   const oppositeUnit = getOppositeUnit(currentUnit);
+
+  useEffect(() => {
+    const isCold = isIceTemperature(inputValue, currentUnit);
+    updateBackground(isCold ? coldBackground : hotBackground);
+  }, [inputValue, currentUnit]);
 
   function getConvertedTemperature() {
     if (isNaN(inputValue)) {
@@ -20,7 +32,7 @@ export default function App() {
     }
   }
   return (
-    <ImageBackground style={s.backgroundImage} source={hotBackground}>
+    <ImageBackground style={s.backgroundImage} source={currentBackground}>
       <SafeAreaProvider>
         <SafeAreaView style={s.root}>
           <View style={s.workspace}>
@@ -33,7 +45,12 @@ export default function App() {
               onChange={setInputValue}
               defaultValue={0}
             />
-            <Text>Button</Text>
+            <ButtonConverter
+              onPressed={() => {
+                setCurrentUnit(oppositeUnit);
+              }}
+              unit={currentUnit}
+            />
           </View>
         </SafeAreaView>
       </SafeAreaProvider>
