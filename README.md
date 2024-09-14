@@ -94,4 +94,4 @@ You will need the following installed on your machine:
 ---
 
 ## Acknowledgements
-This project was created as part of my learning in the React Native : The beginner guide (2024 Edition) Course by Robin Lebhar on Udemy. Special thanks to the instructor for guiding through the fundamental concepts of React Native.
+This project was created as part of my learning in the React Native : The beginner guide (2024 Edition) course by Robin Lebhar on Udemy. Special thanks to the instructor for guiding through the fundamental concepts of React Native.
